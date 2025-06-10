@@ -1,2 +1,1 @@
-# facial-expression-recognition-vit
-Facial Expression Recognition with ViT
+# Vision Transformer for Facial Expression-based PHQ-8/9 Regression
