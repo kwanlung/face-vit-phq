@@ -1,0 +1,67 @@
+stage: "pretrain" # "pretrain" for emotion classification, "finetune" for PHQ regression
+
+# --------------------------Data Sections----------------------------#
+data:
+  # ------------------------Emotion datasets----------------------#
+  emotion_sources:
+    - {source: "hf", repo: "deanngkl/ferplus-7cls", split: "train"}
+    - {source: "hf", repo: "deanngkl/affectnet_no_contempt", split: "train"}
+    - {source: "hf", repo: "deanngkl/raf-db-7emotions", split: "train"}
+  emotion_val_split: 0.1  # 10 % of combined set used as validation if HF repo has no val split
+  cache_dir: "/mnt/cache/hf" # HF will store Arrow shards here
+  image_size: 224
+  affectnet_no_contempt: "face_vit_phq/data/affectnet_no_contempt"
+
+  augmentations:
+    horizontal_flip: true
+    random_rotation: true 
+    rotation: 10
+    color_jitter: [0.05,0.05,0.05,0.03]# brightness, contrast, saturation, hue # brightness, contrast, saturation, hue
+    #[0.2, 0.2, 0.2, 0.1] 
+    random_crop: 0.9 # 90% of image size
+  
+  # ------------------------PHQ datasets----------------------#
+  phq_source:
+    source: "local"
+    path: "/data/daic_woz/frames_224"
+    label_csv: "/data/daic_woz/phq8.csv"   # columns: filename, phq_score
+    splits:
+      train: "/data/daic_woz/lists/train.txt"  # list of filenames (relative to path)
+      val:   "/data/daic_woz/lists/val.txt"
+      test:  "/data/daic_woz/lists/test.txt"
+
+# --------------------------Model & Training Sections----------------------------#
+model:
+  name: "vit_tiny_patch16_224" # ViT model name from timm library
+  pretrained: true # Use pretrained weights from timm
+  num_classes: 7 # Number of classes for emotion classification (FER+ has 7 classes)
+  drop_rate: 0.1 # Dropout rate for the classifier head
+  global_pool: "token" # Global pooling method (e.g., "avg", "max")
+  regression:
+    use_ccc_loss: true # Use Concordance Correlation Coefficient loss for regression
+    freeze_backbone: false # Freeze the backbone during training
+
+training:
+  epochs: 60 # Number of epochs for training
+  batch_size: 64 # Batch size for training
+  learning_rate: 3e-4 # Initial learning rate, base LR for Adam optimizer
+  weight_decay: 1e-5 # Weight decay for optimizer
+  scheduler: "cosine" # Learning rate scheduler type (e.g., "cosine", "step")
+  warmup_epochs: 5 # Number of warmup epochs for learning rate scheduler
+  mixed_precision: true # Use mixed precision training (requires NVIDIA Apex or PyTorch AMP)
+  early_stopping_patience: 15 # Number of epochs with no improvement after which training will be stopped
+  log_interval: 10 # Interval for logging training metrics
+  init_backbone_from: "face_vit_phq/checkpoints/emotion_vit_best.pt" # Path to the pretrained backbone model for PHQ regression
+  output_dir: "face_vit_phq/output" # Directory to save model checkpoints and logs
+  use_profiler: false # Use PyTorch profiler for performance analysis
+
+  # --------------------------Optimizer & Scheduler Sections----------------------------#
+  balanced_sampler: true      # new  ← dataset.py will honour this
+  cutmix_prob: 0.3            # new  ← train.py will honour this
+  grad_clip: 1.0              # new  ← train.py
+  tf32: true    
+
+logging:
+  use_tensorboard: true # Use TensorBoard for logging
+  use_wandb: false # Use Weights & Biases for logging
+  logging_dir: "face_vit_phq" # Directory for logging outputs

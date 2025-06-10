@@ -1,0 +1,57 @@
+# General libraries
+numpy   # for numerical operations
+pandas # for data manipulation and analysis
+scipy # for scientific computing
+matplotlib # for data visualization
+seaborn # for statistical data visualization
+scikit-learn # Machine learning library that provides simple and efficient tools for data mining and data analysis
+
+# Data Science Libraries
+
+## PyTorch libraries
+torch # Core library for PyTorch, used for deep learning and tensor computations
+facenet-pytorch # Face detection and recognition library based on PyTorch
+torchmetrics # Metrics for PyTorch, used for evaluating model performance
+torchvision # Computer vision library for PyTorch, includes datasets, model architectures, and image transformations    
+timm # PyTorch Image Models, a collection of pre-trained models and utilities for image classification tasks
+
+## TensorFlow libraries
+tensorflow # Core library for TensorFlow, used for deep learning and tensor computations
+keras # High-level API for building and training deep learning models in TensorFlow
+keras-cv                # KerasCV implements VisionTransformer in TF 2.16+
+tensorflow-hub          # for MTCNN
+
+## Hugging Face and Transformers
+transformers            # Hugging Face 🤗 Transformers library
+datasets                # Hugging Face 🤗 datasets API
+huggingface_hub
+
+## Computer Vision libraries
+opencv-python # OpenCV library for computer vision tasks
+pillow # Python Imaging Library (PIL) for image processing
+albumentations # Fast image augmentation library and easy-to-use wrapper around popular libraries
+mtcnn                   # fast face detection
+
+# Web Frameworks and Networking
+flask # Lightweight WSGI web application framework for Python
+django # High-level Python web framework that encourages rapid development and clean, pragmatic design
+fastapi # FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.6+ based on standard Python type hints.
+requests # Simple HTTP library for Python, for making HTTP requests
+gunicorn                # production WSGI server
+
+# Web Scraping and Data Acquisition
+beautifulsoup4 # Library for parsing HTML and XML documents, used for web scraping
+openai # OpenAI API client for Python, used for accessing OpenAI's models and services
+selenium # Web testing library, can be used for web scraping and automating web browsers
+kaggle # Kaggle API client for downloading datasets and interacting with Kaggle competitions
+opendatasets # Library for downloading datasets from various sources, including Kaggle and Google Drive
+
+# Utility
+tqdm # Library for creating progress bars in Python, useful for tracking the progress of loops and long-running tasks
+python-dotenv # Library for reading key-value pairs from .env files, used for managing environment variables
+omegaconf # Library for reading and writing configuration files in Python, used for managing application settings
+
+# Only python 3.7 to python 3.11 is supported for the above packages
+# Command to install all packages:
+# pip install -r requirements.txt
+# For pip install -> python.exe -m pip install --upgrade pip
