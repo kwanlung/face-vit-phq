@@ -50,6 +50,8 @@ opendatasets # Library for downloading datasets from various sources, including 
 tqdm # Library for creating progress bars in Python, useful for tracking the progress of loops and long-running tasks
 python-dotenv # Library for reading key-value pairs from .env files, used for managing environment variables
 omegaconf # Library for reading and writing configuration files in Python, used for managing application settings
+wandb # Weights & Biases, a tool for experiment tracking, model management, and collaboration in machine learning projects
+uvicorn # ASGI server for serving FastAPI applications
 
 # Only python 3.7 to python 3.11 is supported for the above packages
 # Command to install all packages:

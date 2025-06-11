@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Emotion ViT‑Tiny – Webcam Demo</title>
+    <style>
+        body{font-family:Arial,Helvetica,sans-serif;background:#111;color:#eee;text-align:center}
+        #video-wrapper{display:inline-block;border:4px solid #444;border-radius:8px;overflow:hidden;margin:20px}
+        img{max-width:100%;height:auto}
+        button{padding:10px 20px;font-size:1.1rem;border:none;border-radius:6px;background:#0a84ff;color:#fff;cursor:pointer;margin-top:10px}
+        button:active{transform:scale(0.97)}
+        #msg{margin-top:15px;font-style:italic;color:#8f8}
+    </style>
+</head>
+<body>
+    <h1>Real‑time Facial‑Expression Recognition</h1>
+
+    <div id="video-wrapper">
+        <img id="video-feed" src="/video" alt="webcam stream" />
+    </div>
+    <br />
+    <button id="capture-btn">Capture &amp; Save</button>
+    <div id="msg"></div>
+
+<script>
+const btn = document.getElementById('capture-btn');
+const msg = document.getElementById('msg');
+btn.addEventListener('click', async () => {
+    btn.disabled = true;
+    msg.textContent = 'Capturing…';
+    try {
+        const res = await fetch('/capture', { method: 'POST' });
+        const data = await res.json();
+        msg.textContent = `Saved → ${data.filename}`;
+    } catch(e){
+        msg.textContent = 'Error: '+e;
+    }
+    btn.disabled = false;
+});
+</script>
+</body>
+</html>

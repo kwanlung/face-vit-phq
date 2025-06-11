@@ -10,7 +10,7 @@ data:
   emotion_val_split: 0.1  # 10 % of combined set used as validation if HF repo has no val split
   cache_dir: "/mnt/cache/hf" # HF will store Arrow shards here
   image_size: 224
-  affectnet_no_contempt: "face_vit_phq/data/affectnet_no_contempt"
+  affectnet_no_contempt: "data/affectnet_no_contempt"
 
   augmentations:
     horizontal_flip: true
@@ -51,8 +51,8 @@ training:
   mixed_precision: true # Use mixed precision training (requires NVIDIA Apex or PyTorch AMP)
   early_stopping_patience: 15 # Number of epochs with no improvement after which training will be stopped
   log_interval: 10 # Interval for logging training metrics
-  init_backbone_from: "face_vit_phq/checkpoints/emotion_vit_best.pt" # Path to the pretrained backbone model for PHQ regression
-  output_dir: "face_vit_phq/output" # Directory to save model checkpoints and logs
+  init_backbone_from: "checkpoints/emotion_vit_best.pt" # Path to the pretrained backbone model for PHQ regression
+  output_dir: "output" # Directory to save model checkpoints and logs
   use_profiler: false # Use PyTorch profiler for performance analysis
 
   # --------------------------Optimizer & Scheduler Sections----------------------------#

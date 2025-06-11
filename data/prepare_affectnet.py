@@ -7,7 +7,7 @@ NEW_NAMES = ['anger','disgust','fear','happiness','neutral','sadness','surprise'
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--out-dir", type=Path, default=Path("data/affectnet_no_contempt"))
+    ap.add_argument("--out-dir", type=Path, default=Path("data/local_data/affectnet_no_contempt"))
     ap.add_argument("--hub-repo", default=None,
                     help="deanngkl/affectnet_no_contempt")
     ap.add_argument("--private", action="store_true")

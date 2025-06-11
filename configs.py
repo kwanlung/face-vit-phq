@@ -39,7 +39,7 @@ class DataCfg:
     image_size: int = 224
     augmentations: AugmentationCfg = field(default_factory=AugmentationCfg)
     phq_source: PhqSourceCfg = field(default_factory=PhqSourceCfg)
-    affectnet_no_contempt: str = "face_vit_phq/data/affectnet_no_contempt"  # Path to the preprocessed AffectNet dataset without contempt
+    affectnet_no_contempt: str = "data/affectnet_no_contempt"  # Path to the preprocessed AffectNet dataset without contempt
     label_mapping: Dict[str, str] = field(default_factory=lambda: {
         "anger": "anger",
         "disgust": "disgust",
@@ -88,7 +88,7 @@ class LoggingCfg:
     use_tensorboard: bool = True
     use_wandb: bool = False
     wandb_project: str = "FacePHQ"
-    logging_dir: str = "face_vit_phq/logs"
+    logging_dir: str = "logs"
 
 @dataclass
 class RootCfg:
@@ -99,7 +99,7 @@ class RootCfg:
     logging: LoggingCfg = field(default_factory=LoggingCfg)
 
 # ───────── Helper loader ─────────
-def load_cfg(yaml_path: str = "face_vit_phq/configs/config.yaml") -> RootCfg:
+def load_cfg(yaml_path: str = "configs/config.yaml") -> RootCfg:
     base = OmegaConf.structured(RootCfg)          # typed defaults
     yaml = OmegaConf.load(yaml_path)
     merged = OmegaConf.merge(base, yaml)          # YAML overrides

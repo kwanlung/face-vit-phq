@@ -7,7 +7,7 @@ from torchvision import transforms
 from datasets import load_dataset, load_from_disk
 
 #----------global config----------#
-from ..configs import cfg   # cfg is already loaded dataclass
+from configs import cfg   # cfg is already loaded dataclass
 
 # ----------transforms----------#
 def get_transforms(split="train", image_size=224):
@@ -212,6 +212,23 @@ def get_combined_emotion_dataset(batch_size, image_size):
         raise ValueError("No training samples found in any dataset.")
     if len(val_loader.dataset) == 0:
         raise ValueError("No validation samples found in any dataset.")
+    # ----- diagnostic label distribution -----
+    from collections import Counter
+    counter = Counter()
+    for _, lab in train_concat:
+        counter[int(lab)] += 1
+    print("Training-set distribution:")
+    label_mapping = cfg.data.label_mapping
+    for idx, cnt in sorted(counter.items()):
+        # Support both dict and list for label_mapping
+        if isinstance(label_mapping, dict):
+            name = label_mapping.get(idx, str(idx))
+        elif isinstance(label_mapping, list):
+            name = label_mapping[idx] if idx < len(label_mapping) else str(idx)
+        else:
+            name = str(idx)
+        print(f"  {idx}: {name} : {cnt}")
+
     return train_loader, val_loader
 
 def get_phq_dataloaders(batch_size, image_size):

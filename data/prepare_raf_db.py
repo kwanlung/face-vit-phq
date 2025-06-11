@@ -100,7 +100,7 @@ def push(ds: Dataset, repo_id: str, token: str):
 def cli():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("--split", default="train", help="Dataset split")
-    parser.add_argument("--out-dir", default="face_vit_phq/data/local_data/raf_db_clean",
+    parser.add_argument("--out-dir", default="data/local_data/raf_db_clean",
                         help="Local save path (omit or --no-save to skip)")
     parser.add_argument("--no-save", action="store_true", help="Skip local save")
     parser.add_argument("--push-to", default="deanngkl/raf-db-7emotions",
