@@ -9,6 +9,9 @@ from datasets import load_dataset, load_from_disk
 #----------global config----------#
 from configs import cfg   # cfg is already loaded dataclass
 
+import numpy as np
+from collections import Counter
+
 # ----------transforms----------#
 def get_transforms(split="train", image_size=224):
     aug = cfg.data.augmentations
@@ -153,13 +156,21 @@ def build_phq_dataset(split, transform):
 # -------- helper to create WeightedRandomSampler ---------
 
 def _make_balanced_sampler(dataset: Dataset, num_classes: int):
-    labels = []
-    for _, lab in dataset:
-        labels.append(int(lab))
-    labels = torch.tensor(labels)
-    class_count = torch.bincount(labels, minlength=num_classes).float()
-    weights = 1.0 / class_count[labels]
-    return WeightedRandomSampler(weights, len(weights), replacement=True)
+    # dataset[i] should return (image, label)
+    labels = [int(label) for _, label in dataset]
+    counts = Counter(labels)
+    class_freq = np.array([counts.get(i, 0) for i in range(num_classes)],
+                          dtype=np.float32)
+    class_weight = 1.0 / np.maximum(class_freq, 1)         # avoid /0
+    class_weights = class_weight / class_weight.min()   # min-weight = 1
+    sample_weights = [class_weights[l] for l in labels]
+    sampler = WeightedRandomSampler(sample_weights,
+                                    num_samples=len(sample_weights),
+                                    replacement=True)
+    print("⮕  Using WeightedRandomSampler:")
+    for i, c in enumerate(class_freq):
+        print(f"   class {i} → {int(c)} samples → weight {class_weights[i]:.6f}")
+    return sampler
 
 #-----------Public API (used by train.py)-----------#
 def get_combined_emotion_dataset(batch_size, image_size):
@@ -195,6 +206,7 @@ def get_combined_emotion_dataset(batch_size, image_size):
         train_loader = DataLoader(train_concat,
                                   batch_size= batch_size,
                                   sampler=sampler,
+                                  shuffle=False, # shuffle=False because sampler already handles it
                                   num_workers=4)
     else:
         train_loader = DataLoader(train_concat,
