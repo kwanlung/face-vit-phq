@@ -6,7 +6,7 @@ A deep learning project that fine-tunes a Vision Transformer (ViT-Tiny) model fo
 
 - 🔍 7-class emotion classification: `['anger', 'disgust', 'fear', 'happiness', 'neutral', 'sadness', 'surprise']`
 - 🧠 Model: ViT-Tiny (`timm` implementation)
-- 🎯 Achieved 81.4% validation accuracy
+- 🎯 Achieved 82% validation accuracy
 - 📚 Cleaned & uploaded datasets to Hugging Face Datasets
 - 🧪 Integrated CutMix, cosine decay scheduler, and AMP for training
 
@@ -30,9 +30,9 @@ face_vit_phq/
 
 | Dataset     | Link                                                                 | Notes                          |
 |-------------|----------------------------------------------------------------------|--------------------------------|
-| FER+        | [Hugging Face](https://huggingface.co/datasets/deanngkl/ferplus-7cls)         | Filtered to 7 basic emotions   |
-| AffectNet   | [Hugging Face](https://huggingface.co/datasets/deanngkl/affectnet_no_contempt) | Removed 'contempt' class       |
-| RAF-DB      | [Hugging Face](https://huggingface.co/datasets/deanngkl/raf-db-7emotions)      | Added proper emotion labels    |
+| FER+        | [ferplus-7cls](https://huggingface.co/datasets/deanngkl/ferplus-7cls)         | Filtered to 7 basic emotions   |
+| AffectNet   | [affectnet_no_contempt](https://huggingface.co/datasets/deanngkl/affectnet_no_contempt) | Removed 'contempt' class       |
+| RAF-DB      | [raf-db-7emotions](https://huggingface.co/datasets/deanngkl/raf-db-7emotions)      | Added proper emotion labels    |
 
 The total amount of datasets
 
@@ -78,10 +78,15 @@ python eval.py --ckpt_path outputs/best_model.pth
 
 | Dataset   | Val Accuracy | Backbone        | Notes                     |
 | --------- | ------------ | --------------- | ------------------------- |
-| FER+      | 81.4%        | ViT-Tiny (timm) | CutMix + cosine scheduler |
-| AffectNet | TBD          | ViT-Tiny        |                           |
-| RAF-DB    | TBD          | ViT-Tiny        |                           |
+| FER+      | 82%        | ViT-Tiny (timm)    | CutMix + cosine scheduler |
+| AffectNet | 82%           | ViT-Tiny        |         CutMix + cosine scheduler                  |
+| RAF-DB    | 82%           | ViT-Tiny        |         CutMix + cosine scheduler                  |
 
+
+---
+
+## Model
+[Hugging Face Facial Expression Recognition ViT-Tiny](https://huggingface.co/deanngkl/vit-tiny-fer)
 
 ---
 

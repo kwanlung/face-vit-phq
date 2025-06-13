@@ -52,6 +52,7 @@ python-dotenv # Library for reading key-value pairs from .env files, used for ma
 omegaconf # Library for reading and writing configuration files in Python, used for managing application settings
 wandb # Weights & Biases, a tool for experiment tracking, model management, and collaboration in machine learning projects
 uvicorn # ASGI server for serving FastAPI applications
+onnx # Open Neural Network Exchange, a format for representing deep learning models
 
 # Only python 3.7 to python 3.11 is supported for the above packages
 # Command to install all packages:
