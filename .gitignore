@@ -8,3 +8,6 @@ venv/
 
 *vit-tiny-fer
 *test
+
+*logs
+*face_vit_phq
