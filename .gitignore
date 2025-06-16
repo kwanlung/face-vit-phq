@@ -11,3 +11,8 @@ venv/
 
 *logs
 *face_vit_phq
+
+data/phf.py
+data/prepare_affectnet.py
+data/prepare_raf_db.py
+data/raf_neutral.py
