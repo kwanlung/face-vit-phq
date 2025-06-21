@@ -22,6 +22,23 @@ DEVICE              = "cuda" if torch.cuda.is_available() else "cpu"
 CAPTURE_DIR         = pathlib.Path("captures")
 CAPTURE_DIR.mkdir(exist_ok=True)
 
+#---------------------check model path---------------------#
+if not MODEL_PATH.exists():
+    print(f"Model not found at {MODEL_PATH}. Downloading from Hugging Face...")
+    from huggingface_hub import hf_hub_download
+    try:
+        model_path = hf_hub_download(
+            repo_id="deanngkl/vit-tiny-fer",
+            filename="final_model.pth",
+            local_dir=MODEL_PATH.parent
+        )
+        MODEL_PATH = pathlib.Path(model_path)
+        print(f"Model downloaded to {MODEL_PATH}")
+    except ImportError:
+        raise RuntimeError("Please install huggingface_hub: pip install huggingface_hub")
+    except Exception as e:
+        raise RuntimeError(f"Model download failed: {str(e)}")
+
 #--------------------laod model---------------------#
 def load_model(path: pathlib.Path):
     from models.vit_model import EmotionViTClassifier 

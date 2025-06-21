@@ -4,7 +4,8 @@ venv/
 *.pyc
 *captures
 
-*output
+output/*
+!output/final_model.pth
 
 *vit-tiny-fer
 *test
