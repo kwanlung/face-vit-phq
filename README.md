@@ -68,6 +68,51 @@ Emotion batch torch.Size([64, 3, 224, 224])
 
 ---
 
+## 🧪 Image Augmentation Strategy
+Effective augmentation is key to improving model generalization, especially in emotion recognition tasks where expressions can vary widely due to lighting, angles, and facial features.
+
+### 🔁 Transformations Used
+
+- `Resize(224x224)`: Standardizes input for ViT models
+
+- `RandomHorizontalFlip`: Encourages symmetry learning
+
+- `RandomRotation(±10°)`: Adds rotation invariance
+
+- `ColorJitter`: Simulates real-world lighting variance
+
+- `Normalize`: Scales pixel values to `[-1, 1]` for ViT compatibility
+
+<details>
+<summary>📦 PyTorch Code</summary>
+
+```python
+transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.RandomHorizontalFlip(),
+    transforms.RandomRotation(10),
+    transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2),
+    transforms.ToTensor(),
+    transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
+])
+```
+</details>
+
+### ✂️ CutMix Augmentation
+To further boost performance and reduce overfitting, CutMix was applied during training:
+
+- Combines two images by cutting and mixing patches
+
+- Linearly blends labels based on area
+
+- Helps the ViT backbone learn more robust, occlusion-resistant features
+
+This proved particularly beneficial for minority classes like disgust and fear in RAF-DB and AffectNet.
+
+> 💡 Insight: ViTs benefit greatly from mixed-structure inputs, making CutMix a powerful augmentation for patch-based embeddings.
+
+---
+
 ## ⚙️ Environment & Compatibility
 - Python >= 3.11
 - PyTorch >= 2.2 (CUDA 12.1 recommended)  
